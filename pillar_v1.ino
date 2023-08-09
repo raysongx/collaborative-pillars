@@ -1,30 +1,29 @@
 #include <math.h>
 #include <CapacitiveSensor.h>
 
-int capL = 3;
-int capR = 5;
-int relayOut = 10;
-CapacitiveSensor cs_3_5 = CapacitiveSensor(capL,capR);
+int capL = 5;
+int capR = 10;
+int relayOut = 3;
+CapacitiveSensor cs = CapacitiveSensor(capL,capR);
 
 void setup() {
     Serial.begin(9600);
-    pinMode(10, OUTPUT);
-    cs_3_5.set_CS_AutocaL_Millis(0xFFFFFFFF);
+    pinMode(3, OUTPUT);
+    cs.set_CS_AutocaL_Millis(0xFFFFFFFF);
 }
 
 void loop() {             
     long start = millis();
-    long total =  cs_3_5.capacitiveSensor(30);
-    Serial.print(millis() - start);
-    Serial.print("\t");
+    long total =  cs.capacitiveSensor(30);
+    // Serial.print(millis() - start);
+    // Serial.print("\t");
 
-    Serial.print(total);
-    Serial.print("\t");
-    if (total >= 150){
+    Serial.println(total);
+    if (total < 1000){
         digitalWrite(relayOut, LOW);
     }
     else {
         digitalWrite(relayOut, HIGH);
     }
-    delay(100);            
+    delay(50);            
 }
