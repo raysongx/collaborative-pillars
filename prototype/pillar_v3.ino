@@ -9,7 +9,7 @@ int timer = 0;
 void setup() {
     Serial.begin(9600);
     pinMode(3, OUTPUT);
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 10; i++) {
         analogRead(sensorPin);
         delay(50);
     }
@@ -17,19 +17,21 @@ void setup() {
 
 void loop() {             
     int reading = analogRead(sensorPin);
-    Serial.println(reading);
     timer += 1;
-    if (reading <= threshold && timer >= 1800){
-        digitalWrite(relayOut, LOW);
+    Serial.println(timer);
+    if (reading > threshold && timer >= 100){
+        digitalWrite(relayOut, HIGH);
         Serial.println("self touched!");
+        delay(2000);
         timer = 0;
     } else if (reading > threshold) {
         digitalWrite(relayOut, LOW);
-        Serial.println("touched!");
-        timer = 0;
+        Serial.println("not touched!");
     } else {
         digitalWrite(relayOut, HIGH);
-        Serial.println("not touched!");
+        Serial.println("touched!");
+        timer = 0;
     }
-    delay(50);            
+    // Serial.print(reading);
+    delay(100);            
 }
